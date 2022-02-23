@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: config-client
+  name: config-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-client
+  template:
+    metadata:
+      labels:
+        app: config-client
+    spec:
+      containers:
+        #        Change the thing below to your registry etc. localhost:5000 points to local registry for kind
+        #        - image: docker.io/library/config-client
+        - image: localhost:5000/config-client:latest
+          name: config-client
+          volumeMounts:
+            - name: application-config
+              readOnly: true
+              mountPath: "/etc/config/default/"
+            - name: secret-volume
+              readOnly: true
+              mountPath: "/etc/config/secret/"
+          readinessProbe:
+            httpGet:
+              port: 7654
+              path: /actuator/health/readiness
+          livenessProbe:
+            httpGet:
+              port: 7654
+              path: /actuator/health/liveness
+      volumes:
+        - name: application-config
+          configMap:
+            name: config-map-demo
+        - name: secret-volume
+          secret:
+            secretName: config-client-secret
