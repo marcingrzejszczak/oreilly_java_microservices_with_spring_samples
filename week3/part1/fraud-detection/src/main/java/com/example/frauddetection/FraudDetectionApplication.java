@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,27 +31,21 @@ class FraudDetectionController {
 
 	private final AtomicInteger gauge;
 	private final Counter counter;
+	private final Timer timer;
 
 	FraudDetectionController(MeterRegistry meterRegistry) {
 		this.gauge = meterRegistry.gauge("frauds_current", new AtomicInteger());
 		this.counter = meterRegistry.counter("frauds_counter");
+		this.timer = meterRegistry.timer("frauds_time");
 	}
 
 	@GetMapping("/frauds")
 	List<String> frauds() {
-		System.out.println("\n\nGot fraud request\n\n");
-		this.counter.increment();
-		return Arrays.asList("josh", "marcin");
-	}
-
-	@GetMapping("/frauds/gauge")
-	int countFraudsWithGauge() {
-		return this.gauge.get();
-	}
-
-	@GetMapping("/frauds/counter")
-	double countFraudsWithCounter() {
-		return this.counter.count();
+		return this.timer.record(() -> {
+			System.out.println("\n\nGot fraud request\n\n");
+			this.counter.increment();
+			return Arrays.asList("josh", "marcin");
+		});
 	}
 
 	@Scheduled(fixedRate = 1L)
