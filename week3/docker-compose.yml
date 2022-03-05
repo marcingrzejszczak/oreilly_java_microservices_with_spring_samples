@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   consul:
     image: progrium/consul
@@ -7,3 +7,7 @@ services:
       - 8400:8400
       - 8500:8500
       - 8600:8600
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
