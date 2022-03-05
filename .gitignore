@@ -17,3 +17,5 @@ nohup.log
 .project
 .settings
 bin/
+*.log
+*.tgz
