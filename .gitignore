@@ -18,4 +18,4 @@ nohup.log
 .settings
 bin/
 *.log
-*.tgz
+*.gz

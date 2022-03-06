@@ -11,7 +11,7 @@
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>oreilly-java-microservices-with-spring-week3-part2</artifactId>
+	<artifactId>oreilly-java-microservices-with-spring-week3-part3</artifactId>
 	<packaging>pom</packaging>
 
 	<name>${project.artifactId}</name>
