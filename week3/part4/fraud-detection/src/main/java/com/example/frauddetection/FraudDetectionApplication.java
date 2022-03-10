@@ -54,7 +54,8 @@ class FeatureToggleConfiguration {
 
 	@Bean
 	@Primary
-	FeatureProxyFactoryBean fraudCheckingProxy(StaticFraudService staticFraudService, EmptyFraudService emptyFraudService) {
+	FeatureProxyFactoryBean fraudCheckingProxy(StaticFraudService staticFraudService,
+			EmptyFraudService emptyFraudService) {
 		FeatureProxyFactoryBean bean = new FeatureProxyFactoryBean();
 		bean.setActive(staticFraudService);
 		bean.setInactive(emptyFraudService);
@@ -71,6 +72,7 @@ class FeatureToggleConfiguration {
 				.build();
 	}
 
+	// tag::featureconfig[]
 	@Configuration(proxyBeanMethods = false)
 	static class FeatureManagerConfiguration {
 
@@ -83,6 +85,7 @@ class FeatureToggleConfiguration {
 		}
 
 	}
+	// end::featureconfig[]
 }
 
 
@@ -96,4 +99,3 @@ class NewUserWithEachRequestUserProvider implements UserProvider {
 		return new SimpleFeatureUser(String.valueOf(this.random.nextInt()));
 	}
 }
-
