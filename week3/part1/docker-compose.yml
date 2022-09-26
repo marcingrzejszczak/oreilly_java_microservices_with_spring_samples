@@ -3,6 +3,7 @@ services:
 
   consul:
     image: progrium/consul
+    extra_hosts: ['host.docker.internal:host-gateway']
     command: -server -bootstrap
     ports:
       - 8400:8400
@@ -11,18 +12,20 @@ services:
 
   prometheus:
     image: prom/prometheus
+    extra_hosts: ['host.docker.internal:host-gateway']
     command:
       - --enable-feature=exemplar-storage
       - --config.file=/etc/prometheus/prometheus.yml
     volumes:
-      - ./target/docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
       - "9090:9090"
 
   grafana:
     image: grafana/grafana
+    extra_hosts: ['host.docker.internal:host-gateway']
     volumes:
-      - ./target/docker/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./docker/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
       - ./docker/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
