@@ -2,6 +2,7 @@ version: "3.8"
 services:
   consul:
     image: progrium/consul
+    extra_hosts: ['host.docker.internal:host-gateway']
     command: -server -bootstrap
     ports:
       - 8400:8400
@@ -9,5 +10,6 @@ services:
       - 8600:8600
   zipkin:
     image: openzipkin/zipkin
+    extra_hosts: ['host.docker.internal:host-gateway']
     ports:
       - 9411:9411
