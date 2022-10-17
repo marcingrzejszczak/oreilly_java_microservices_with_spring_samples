@@ -1,0 +1,61 @@
+# curl localhost:9081/resttemplate
+GET localhost:9081/resttemplate
+
+###
+
+
+# Enable service
+POST localhost:9081/actuator/chaosmonkey/watchers
+Content-Type: application/json
+
+{
+  "controller": false,
+  "restController": false,
+  "service": true,
+  "repository": false,
+  "component": false
+}
+
+###
+
+# Enable repository
+POST localhost:9081/actuator/chaosmonkey/watchers
+Content-Type: application/json
+
+{
+  "controller": false,
+  "restController": false,
+  "service": false,
+  "repository": true,
+  "component": false
+}
+
+###
+
+# Disable watchers
+POST localhost:9081/actuator/chaosmonkey/watchers
+Content-Type: application/json
+
+{
+  "controller": false,
+  "restController": false,
+  "service": false,
+  "repository": false,
+  "component": false
+}
+
+###
+
+# Enable exception
+POST localhost:9081/actuator/chaosmonkey/assaults
+Content-Type: application/json
+
+{
+  "level": 1,
+  "latencyActive": false,
+  "exceptionsActive": true,
+  "killApplicationActive": false
+}
+
+
+###

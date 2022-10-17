@@ -68,7 +68,6 @@ class FraudDetectionCallingService {
 		this.restTemplate = restTemplate;
 	}
 
-	@GetMapping("/resttemplate")
 	@SuppressWarnings("unchecked")
 	List<String> restTemplateFrauds() {
 		return this.restTemplate.getForObject("http://frauddetection/frauds", List.class);

@@ -1,0 +1,14 @@
+# curl localhost:9081/resttemplate/
+GET localhost:9081/resttemplate/
+
+###
+
+# curl localhost:9081/feign/
+GET localhost:9081/feign/
+
+###
+
+# curl localhost:9081/retrofit/
+GET localhost:9081/retrofit/
+
+###

@@ -1,0 +1,13 @@
+# curl localhost:8888/encrypt -d "my secret"
+POST localhost:8888/encrypt
+Content-Type: application/x-www-form-urlencoded
+
+my secret
+
+###
+
+# curl localhost:8888/decrypt -d "05162e184cd35675b9d7424e67398ee98ab5a6f5df75941a502493b99dcef813"
+POST localhost:8888/decrypt
+Content-Type: application/x-www-form-urlencoded
+
+05162e184cd35675b9d7424e67398ee98ab5a6f5df75941a502493b99dcef813

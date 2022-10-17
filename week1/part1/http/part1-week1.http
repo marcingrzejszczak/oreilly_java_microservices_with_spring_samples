@@ -1,0 +1,20 @@
+# What is the default logging level for <org.apache.catalina.util.LifecycleBase>
+GET localhost:4321/actuator/loggers/org.apache.catalina.util.LifecycleBase
+
+###
+
+# Which endpoint ensures that your application is healthy?
+GET localhost:4321/actuator/health
+
+
+###
+
+# Which Java Home variable does your application take into consideration (it's there as a JAVA_HOME env var)
+GET localhost:4321/actuator/env/JAVA_HOME
+
+###
+
+# Why wasn't the R2dbcAutoConfiguration read?
+GET localhost:4321/actuator/conditions
+
+
