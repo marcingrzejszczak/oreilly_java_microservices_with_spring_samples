@@ -47,23 +47,6 @@ class Config {
 
 }
 
-/*@Configuration(proxyBeanMethods = false)
-@EnableRetrofitClients
-class SquareConfig {
-
-	@Bean
-	@LoadBalanced
-	public OkHttpClient.Builder okHttpClientBuilder() {
-		return new OkHttpClient.Builder();
-	}
-}*/
-
-/*@RetrofitClient("frauddetection")
-interface RetrofitFrauds {
-	@GET("/frauds")
-	Call<List<String>> frauds();
-}*/
-
 @Configuration(proxyBeanMethods = false)
 @EnableFeignClients
 class OpenFeignConfig {
@@ -94,16 +77,13 @@ class LoanIssuanceController {
 
 	private final FeignFrauds feignFrauds;
 
-//	private final RetrofitFrauds retrofitFrauds;
-
 	private final CircuitBreakerFactory factory;
 
 	LoanIssuanceController(@LoadBalanced RestTemplate restTemplate,
-			FeignFrauds feignFrauds, // RetrofitFrauds retrofitFrauds,
+			FeignFrauds feignFrauds,
 			CircuitBreakerFactory factory) {
 		this.restTemplate = restTemplate;
 		this.feignFrauds = feignFrauds;
-//		this.retrofitFrauds = retrofitFrauds;
 		this.factory = factory;
 	}
 
@@ -151,12 +131,6 @@ class LoanIssuanceController {
 		System.out.println("\n\nGot feign request\n\n");
 		return this.feignFrauds.frauds();
 	}
-/*
-	@GetMapping("/retrofit")
-	List<String> retrofitFrauds() throws IOException {
-		System.out.println("\n\nGot retrofit request\n\n");
-		return this.retrofitFrauds.frauds().execute().body();
-	}*/
 }
 
 @Configuration(proxyBeanMethods = false)
