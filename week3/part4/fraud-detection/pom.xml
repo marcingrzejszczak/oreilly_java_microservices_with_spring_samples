@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.4</version>
+		<version>3.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -14,9 +14,8 @@
 	<name>Fraud-Detection</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>11</java.version>
-		<spring-cloud.version>2021.0.4</spring-cloud.version>
-		<togglz.version>3.2.1</togglz.version>
+		<java.version>17</java.version>
+		<spring-cloud.version>2022.0.0</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -27,39 +26,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jdbc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
-		</dependency>
 		<!-- Feature toggle -->
 		<dependency>
-			<groupId>org.togglz</groupId>
-			<artifactId>togglz-spring-boot-starter</artifactId>
-			<version>${togglz.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.togglz</groupId>
-			<artifactId>togglz-spring-web</artifactId>
-			<version>${togglz.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.togglz</groupId>
-			<artifactId>togglz-console</artifactId>
-			<version>${togglz.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>test</scope>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 
 		<dependency>

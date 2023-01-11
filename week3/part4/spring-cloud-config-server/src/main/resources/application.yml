@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          # [Git] Use your fork
+          uri: https://github.com/marcingrzejszczak/config-server-properties
+
+# [Config server] default port
+server.port: 8888
+
+
+

@@ -31,7 +31,6 @@
 	<modules>
 		<module>fraud-detection</module>
 		<module>loanissuance</module>
-		<module>loanissuance-reactive</module>
 	</modules>
 
 </project>

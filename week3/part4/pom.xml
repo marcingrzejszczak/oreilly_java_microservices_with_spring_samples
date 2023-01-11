@@ -30,6 +30,7 @@
 
 	<modules>
 		<module>fraud-detection</module>
+		<module>spring-cloud-config-server</module>
 	</modules>
 
 </project>

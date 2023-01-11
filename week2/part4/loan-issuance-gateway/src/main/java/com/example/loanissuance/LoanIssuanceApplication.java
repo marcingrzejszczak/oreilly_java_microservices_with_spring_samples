@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
@@ -41,28 +42,11 @@ class Config {
 
 	@Bean
 	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
+	RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
 	}
 
 }
-
-/*@Configuration(proxyBeanMethods = false)
-@EnableRetrofitClients
-class SquareConfig {
-
-	@Bean
-	@LoadBalanced
-	public OkHttpClient.Builder okHttpClientBuilder() {
-		return new OkHttpClient.Builder();
-	}
-}*/
-
-/*@RetrofitClient("frauddetection")
-interface RetrofitFrauds {
-	@GET("/frauds")
-	Call<List<String>> frauds();
-}*/
 
 @Configuration(proxyBeanMethods = false)
 @EnableFeignClients
@@ -94,16 +78,13 @@ class LoanIssuanceController {
 
 	private final FeignFrauds feignFrauds;
 
-//	private final RetrofitFrauds retrofitFrauds;
-
 	private final CircuitBreakerFactory factory;
 
 	LoanIssuanceController(@LoadBalanced RestTemplate restTemplate,
-			FeignFrauds feignFrauds, // RetrofitFrauds retrofitFrauds,
+			FeignFrauds feignFrauds,
 			CircuitBreakerFactory factory) {
 		this.restTemplate = restTemplate;
 		this.feignFrauds = feignFrauds;
-//		this.retrofitFrauds = retrofitFrauds;
 		this.factory = factory;
 	}
 
@@ -151,12 +132,6 @@ class LoanIssuanceController {
 		System.out.println("\n\nGot feign request\n\n");
 		return this.feignFrauds.frauds();
 	}
-/*
-	@GetMapping("/retrofit")
-	List<String> retrofitFrauds() throws IOException {
-		System.out.println("\n\nGot retrofit request\n\n");
-		return this.retrofitFrauds.frauds().execute().body();
-	}*/
 }
 
 @Configuration(proxyBeanMethods = false)

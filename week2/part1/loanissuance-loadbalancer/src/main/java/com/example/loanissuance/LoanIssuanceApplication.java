@@ -3,25 +3,21 @@ package com.example.loanissuance;
 import java.io.IOException;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.http.GET;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
-import org.springframework.cloud.square.retrofit.core.RetrofitClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.support.WebClientAdapter;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @SpringBootApplication
 public class LoanIssuanceApplication {
@@ -37,27 +33,35 @@ class Config {
 
 	@Bean
 	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
+	RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
 	}
-
-}
-
-@Configuration(proxyBeanMethods = false)
-@EnableRetrofitClients
-class SquareConfig {
 
 	@Bean
 	@LoadBalanced
-	public OkHttpClient.Builder okHttpClientBuilder() {
-		return new OkHttpClient.Builder();
+	WebClient.Builder webClient() {
+		return WebClient.builder();
 	}
+
+	@Bean
+	HttpServiceProxyFactory proxyFactory(WebClient.Builder webClientBuilder) {
+		return HttpServiceProxyFactory.builder()
+				.clientAdapter(WebClientAdapter.forClient(webClientBuilder
+								.baseUrl("http://frauddetection")
+						.build()))
+				.build();
+	}
+
+	@Bean
+	DeclarativeFrauds declarativeFrauds(HttpServiceProxyFactory httpServiceProxyFactory) {
+		return httpServiceProxyFactory.createClient(DeclarativeFrauds.class);
+	}
+
 }
 
-@RetrofitClient("frauddetection")
-interface RetrofitFrauds {
-	@GET("/frauds")
-	Call<List<String>> frauds();
+interface DeclarativeFrauds {
+	@GetExchange("/frauds")
+	List<String> frauds();
 }
 
 @Configuration(proxyBeanMethods = false)
@@ -80,13 +84,13 @@ class LoanIssuanceController {
 
 	private final FeignFrauds feignFrauds;
 
-	private final RetrofitFrauds retrofitFrauds;
+	private final DeclarativeFrauds declarativeFrauds;
 
 	LoanIssuanceController(@LoadBalanced RestTemplate restTemplate,
-			FeignFrauds feignFrauds, RetrofitFrauds retrofitFrauds) {
+			FeignFrauds feignFrauds, DeclarativeFrauds declarativeFrauds) {
 		this.restTemplate = restTemplate;
 		this.feignFrauds = feignFrauds;
-		this.retrofitFrauds = retrofitFrauds;
+		this.declarativeFrauds = declarativeFrauds;
 	}
 
 	@GetMapping("/resttemplate")
@@ -102,9 +106,9 @@ class LoanIssuanceController {
 		return this.feignFrauds.frauds();
 	}
 
-	@GetMapping("/retrofit")
-	List<String> retrofitFrauds() throws IOException {
-		System.out.println("\n\nGot retrofit request\n\n");
-		return this.retrofitFrauds.frauds().execute().body();
+	@GetMapping("/declarative")
+	List<String> declarativeFrauds() throws IOException {
+		System.out.println("\n\nGot declarative client request\n\n");
+		return this.declarativeFrauds.frauds();
 	}
 }
