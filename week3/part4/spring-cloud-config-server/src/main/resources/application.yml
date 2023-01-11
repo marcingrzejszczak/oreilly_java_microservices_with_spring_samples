@@ -1,29 +1,13 @@
 spring:
   cloud:
-    vault:
-      # [Vault] token
-      token: vault-plaintext-root-token
     config:
       server:
-        composite:
-          - type: vault
-            # [Vault] Key Value version 2
-            kv-version: 2
-            order: 1
-            # TODO: Why is git always picked as the one that matches?????
-          - type: git
-            # [Git] Use your fork
-            uri: https://github.com/marcingrzejszczak/config-server-properties
-            order: 2
-  profiles:
-    # [Vault & git]
-    active: composite
+        git:
+          # [Git] Use your fork
+          uri: https://github.com/marcingrzejszczak/config-server-properties
 
 # [Config server] default port
 server.port: 8888
-
-# [Config server] For Encryption
-encrypt.key: "Secret Key"
 
 
 
