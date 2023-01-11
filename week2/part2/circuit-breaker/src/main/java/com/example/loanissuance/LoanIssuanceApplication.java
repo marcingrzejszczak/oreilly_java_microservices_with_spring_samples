@@ -8,6 +8,7 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
@@ -39,8 +40,8 @@ class Config {
 
 	@Bean
 	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
+	RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
 	}
 
 	@Bean
@@ -52,7 +53,9 @@ class Config {
 	@Bean
 	HttpServiceProxyFactory proxyFactory(WebClient.Builder webClientBuilder) {
 		return HttpServiceProxyFactory.builder()
-				.clientAdapter(WebClientAdapter.forClient(webClientBuilder.build()))
+				.clientAdapter(WebClientAdapter.forClient(webClientBuilder
+								.baseUrl("http://frauddetection")
+						.build()))
 				.build();
 	}
 

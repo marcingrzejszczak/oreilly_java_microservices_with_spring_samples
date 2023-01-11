@@ -2,15 +2,16 @@ package com.example.loanissuance;
 
 import java.util.List;
 
+import io.micrometer.tracing.BaggageInScope;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.sleuth.BaggageInScope;
-import org.springframework.cloud.sleuth.Span;
-import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +32,8 @@ class Config {
 
 	@Bean
 	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
+	RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
 	}
 
 }
@@ -82,7 +83,7 @@ class LoanIssuanceBaggageController {
 				.event("got request");
 		try (Tracer.SpanInScope ws = this.tracer.withSpan(span.start())) {
 			try (BaggageInScope b =
-						 this.tracer.createBaggage("mybaggage", "mybaggagevalue")) {
+						 this.tracer.createBaggage("mybaggage", "mybaggagevalue").makeCurrent()) {
 				return this.restTemplate
 						.getForObject("http://frauddetection/baggage", String.class);
 			}

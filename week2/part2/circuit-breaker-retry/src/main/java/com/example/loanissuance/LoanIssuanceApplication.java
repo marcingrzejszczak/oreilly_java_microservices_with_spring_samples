@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.circuitbreaker.springretry.SpringRetryCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.springretry.SpringRetryConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
@@ -19,6 +20,8 @@ import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
@@ -36,8 +39,8 @@ class Config {
 
 	@Bean
 	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
+	RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
 	}
 
 	@Bean
@@ -49,7 +52,9 @@ class Config {
 	@Bean
 	HttpServiceProxyFactory proxyFactory(WebClient.Builder webClientBuilder) {
 		return HttpServiceProxyFactory.builder()
-				.clientAdapter(WebClientAdapter.forClient(webClientBuilder.build()))
+				.clientAdapter(WebClientAdapter.forClient(webClientBuilder
+								.baseUrl("http://frauddetection")
+						.build()))
 				.build();
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -32,8 +33,8 @@ class Config {
 
 	@Bean
 	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
+	RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
 	}
 
 	@Bean
@@ -45,7 +46,9 @@ class Config {
 	@Bean
 	HttpServiceProxyFactory proxyFactory(WebClient.Builder webClientBuilder) {
 		return HttpServiceProxyFactory.builder()
-				.clientAdapter(WebClientAdapter.forClient(webClientBuilder.build()))
+				.clientAdapter(WebClientAdapter.forClient(webClientBuilder
+								.baseUrl("http://frauddetection")
+						.build()))
 				.build();
 	}
 
