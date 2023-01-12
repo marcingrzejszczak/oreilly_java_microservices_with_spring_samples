@@ -8,7 +8,7 @@ GET localhost:9081/feign/
 
 ###
 
-# curl localhost:9081/retrofit/
-GET localhost:9081/retrofit/
+# curl localhost:9081/declarative/
+GET localhost:9081/declarative/
 
 ###
