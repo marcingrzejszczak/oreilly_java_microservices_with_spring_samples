@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-demo
+data:
+  a: a value from config REFRESHED
+  config.property: value for config prop from kubernetes REFRESHED

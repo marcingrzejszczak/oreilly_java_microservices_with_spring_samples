@@ -1,9 +1,3 @@
-# curl localhost:8888/bar/foo/ -H "X-Config-Token: vault-plaintext-root-token"
-GET localhost:8888/bar/foo/
-X-Config-Token: vault-plaintext-root-token
-
-###
-
 # curl localhost:8888/bar-foo.properties -H "X-Config-Token: vault-plaintext-root-token"
 GET localhost:8888/bar-foo.properties
 X-Config-Token: vault-plaintext-root-token
@@ -26,3 +20,6 @@ GET localhost:7654/encrypted
 
 ###
 
+
+# Call refresh and try again
+POST localhost:7654/actuator/refresh

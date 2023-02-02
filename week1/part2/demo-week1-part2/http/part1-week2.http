@@ -1,0 +1,17 @@
+# Send 3  requests - should return default values and no logging
+GET localhost:7654/refreshed
+
+###
+GET localhost:7654/nonrefreshed
+
+###
+GET localhost:7654/configprop
+
+
+# Change the contents of the file and make the 3 calls again - nothing changes
+
+###
+
+# Call refresh and try again
+POST localhost:7654/actuator/refresh
+
