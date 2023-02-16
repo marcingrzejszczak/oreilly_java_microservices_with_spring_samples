@@ -1,10 +1,52 @@
 # curl localhost:9081/resttemplate
 GET localhost:9081/resttemplate
 
+
 ###
 
+# Enable repository in fraud detection
+POST localhost:9080/actuator/chaosmonkey/watchers
+Content-Type: application/json
 
-# Enable service
+{
+  "controller": false,
+  "restController": false,
+  "service": false,
+  "repository": true,
+  "component": false
+}
+
+###
+
+# Enable exception in fraud detection
+POST localhost:9080/actuator/chaosmonkey/assaults
+Content-Type: application/json
+
+{
+"level": 1,
+"latencyActive": false,
+"exceptionsActive": true,
+"killApplicationActive": false
+}
+
+###
+
+# Disable watchers for fraud detection
+POST localhost:9080/actuator/chaosmonkey/watchers
+Content-Type: application/json
+
+{
+  "controller": false,
+  "restController": false,
+  "service": false,
+  "repository": false,
+  "component": false
+}
+
+
+###
+
+# Enable service in loan issuance
 POST localhost:9081/actuator/chaosmonkey/watchers
 Content-Type: application/json
 
@@ -18,17 +60,22 @@ Content-Type: application/json
 
 ###
 
-# Enable repository
-POST localhost:9081/actuator/chaosmonkey/watchers
+# Enable exception in loan issuance
+POST localhost:9081/actuator/chaosmonkey/assaults
 Content-Type: application/json
 
 {
-  "controller": false,
-  "restController": false,
-  "service": false,
-  "repository": true,
-  "component": false
+  "level": 1,
+  "latencyActive": false,
+  "exceptionsActive": true,
+  "killApplicationActive": false
 }
+
+###
+
+# curl localhost:9081/resttemplate
+GET localhost:9081/resttemplate
+
 
 ###
 
@@ -44,18 +91,3 @@ Content-Type: application/json
   "component": false
 }
 
-###
-
-# Enable exception
-POST localhost:9081/actuator/chaosmonkey/assaults
-Content-Type: application/json
-
-{
-  "level": 1,
-  "latencyActive": false,
-  "exceptionsActive": true,
-  "killApplicationActive": false
-}
-
-
-###

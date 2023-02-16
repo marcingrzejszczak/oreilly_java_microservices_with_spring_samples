@@ -1,12 +1,16 @@
-# curl localhost:9084/frauds
-GET localhost:9084/frauds
+# curl localhost:9080/frauds
+GET localhost:9080/frauds
 
 ###
 
-# curl -d '{"enabled":"true"}' -H "Content-Type: application/json" -POST http://localhost:9084/actuator/togglz/STATIC_FRAUD_CHECK_LIST
-POST http://localhost:9084/actuator/togglz/STATIC_FRAUD_CHECK_LIST
-Content-Type: application/json
+POST localhost:9080/actuator/refresh
 
-{
-  "enabled":"true"
-}
+###
+
+## curl -d '{"enabled":"true"}' -H "Content-Type: application/json" -POST http://localhost:9080/actuator/togglz/STATIC_FRAUD_CHECK_LIST
+#POST http://localhost:9080/actuator/togglz/STATIC_FRAUD_CHECK_LIST
+#Content-Type: application/json
+#
+#{
+#  "enabled":"true"
+#}

@@ -1,25 +1,25 @@
-# curl localhost:9082/frauds
-GET localhost:9082/frauds
+# curl localhost:9080/frauds
+GET localhost:9080/frauds
 
 ###
 
-# curl localhost:9082/actuator/metrics/frauds_counter
-GET localhost:9082/actuator/metrics/frauds_counter
+# curl localhost:9080/actuator/metrics/frauds_counter
+GET localhost:9080/actuator/metrics/frauds_counter
 
 ###
 
-# curl localhost:9082/actuator/metrics/frauds_current
-GET localhost:9082/actuator/metrics/frauds_current
+# curl localhost:9080/actuator/metrics/frauds_current
+GET localhost:9080/actuator/metrics/frauds_current
 
 ###
 
-# curl localhost:9082/actuator/metrics/frauds_time
-GET localhost:9082/actuator/metrics/frauds_time
+# curl localhost:9080/actuator/metrics/frauds_time
+GET localhost:9080/actuator/metrics/frauds_time
 
 ###
 
-# curl localhost:9082/actuator/prometheus
-GET localhost:9082/actuator/prometheus
+# curl localhost:9080/actuator/prometheus
+GET localhost:9080/actuator/prometheus
 
 ###
 

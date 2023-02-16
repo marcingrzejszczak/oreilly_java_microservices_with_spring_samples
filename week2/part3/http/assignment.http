@@ -1,5 +1,5 @@
-# curl localhost:9081/stream -d 'TEST' -H content-type:application/json -v
-POST localhost:9081/stream
+# curl localhost:19081/stream -d 'TEST' -H content-type:application/json -v
+POST localhost:19081/stream
 Content-Type: application/json
 
 TEST

@@ -1,5 +1,5 @@
 # curl -v localhost:6543/httpbin/headers --cookie 'spring=cloud'
-POST localhost:6543/httpbin/headers
+GET localhost:6543/httpbin/headers
 Cookie: spring=cloud
 
 asd

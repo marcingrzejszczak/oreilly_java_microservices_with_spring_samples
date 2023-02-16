@@ -1,20 +1,15 @@
-# curl localhost:9084/resttemplate
-GET localhost:9084/resttemplate
+# curl localhost:9081/resttemplate
+GET localhost:9081/resttemplate
 
 ###
 
-# curl localhost:9084/baggage
-GET localhost:9084/baggage
+# curl localhost:9081/baggage
+GET localhost:9081/baggage
 
 ###
 
-# curl localhost:9085/webclient
-GET localhost:9085/webclient
-
-###
-
-# curl localhost:9085/baggage
-GET localhost:9085/baggage
+# curl localhost:9081/baggage
+GET localhost:9081/baggage
 
 ###
 
