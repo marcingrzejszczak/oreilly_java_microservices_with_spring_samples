@@ -31,6 +31,12 @@ Content-Type: application/json
 
 ###
 
+# curl localhost:9081/resttemplate
+GET localhost:9081/resttemplate
+
+
+###
+
 # Disable watchers for fraud detection
 POST localhost:9080/actuator/chaosmonkey/watchers
 Content-Type: application/json

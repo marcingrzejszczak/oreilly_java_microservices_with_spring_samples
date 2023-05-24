@@ -1,13 +1,13 @@
-# curl localhost:9081/resttemplate/
-GET localhost:9081/resttemplate/
+# curl localhost:9081/resttemplate
+GET localhost:9081/resttemplate
 
 ###
 
-# curl localhost:9081/resttemplatewithwrongurl /
-GET localhost:9081/resttemplatewithwrongurl/
+# curl localhost:9081/resttemplatewithwrongurl
+GET localhost:9081/resttemplatewithwrongurl
 
 ###
 
-# curl localhost:9081/resttemplatewithfallback /
-GET localhost:9081/resttemplatewithfallback/
+# curl localhost:9081/resttemplatewithfallback
+GET localhost:9081/resttemplatewithfallback
 

@@ -1,5 +1,10 @@
 version: '3.8'
 services:
+  httpbin:
+    image: kennethreitz/httpbin
+    ports:
+      - 12345:80
+
   consul:
     image: progrium/consul
     command: -server -bootstrap

@@ -7,9 +7,3 @@ GET localhost:9081/resttemplate
 GET localhost:9081/baggage
 
 ###
-
-# curl localhost:9081/baggage
-GET localhost:9081/baggage
-
-###
-

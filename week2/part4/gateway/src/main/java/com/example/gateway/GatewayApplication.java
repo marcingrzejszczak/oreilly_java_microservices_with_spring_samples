@@ -42,7 +42,7 @@ public class GatewayApplication {
 									.circuitBreaker(c -> c.setName("httpBinCircuitBreaker"))
 									.addResponseHeader("X-Spring-Cloud", "Workshops Response")
 									.setStatus(201))
-						.uri("https://httpbin.org")).build();
+						.uri("http://localhost:12345")).build();
 	}
 	// @formatter:on
 
