@@ -32,6 +32,7 @@
 		<module>fraud-detection</module>
 		<module>loan-issuance-gateway</module>
 		<module>gateway</module>
+		<module>gateway-mvc</module>
 	</modules>
 
 </project>

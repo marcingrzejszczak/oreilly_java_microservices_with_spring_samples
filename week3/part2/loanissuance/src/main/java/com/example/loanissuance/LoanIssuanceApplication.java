@@ -2,6 +2,7 @@ package com.example.loanissuance;
 
 import java.util.List;
 
+import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.tracing.BaggageInScope;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;

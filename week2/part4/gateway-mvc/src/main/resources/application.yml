@@ -1,0 +1,42 @@
+# Route only when header X-OperationType: Fraud
+# Route only for GET
+# Route when URL is gateway/check/account
+#	StripPrefix 1
+#	(LB filter, RewritePath)
+#	Call fraud detection over the service discovery to the original endpoint (i.e. account in Loan Issuance)
+#		(Filter)
+#		Create a router with circuit breaker with fallback on 404 to /resttemplate in Loan Issuance
+# TIP: You have to create a fallback route in the gateway that will redirect the call to Loan Issuance
+# in Consul + will set the path to /resttemplate
+
+# curl localhost:6543/check/account -H "X-Operation-Type: Fraud"
+spring:
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: fraud
+            uri: lb://loanissuance/
+            predicates:
+              - Header=X-Operation-Type, Fraud
+              - Method=GET
+              - Path=/check/account
+            filters:
+              - StripPrefix=1
+              # TODO: Bug in the gateway
+              - name: CircuitBreaker
+                args:
+                  id: loanIssuanceCircuitBreaker
+                  fallbackUri: forward:/fallback
+                  statusCodes:
+                    - 404
+          - id: loanissuance-fallback
+            uri: lb://loanissuance/
+            predicates:
+              - Path=/fallback
+            filters:
+              - SetPath=/resttemplate
+  application:
+    name: gateway # required for service discovery
+
+server.port: 6543
