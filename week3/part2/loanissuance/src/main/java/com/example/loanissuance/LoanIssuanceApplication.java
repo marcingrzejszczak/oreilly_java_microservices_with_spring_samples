@@ -2,7 +2,9 @@ package com.example.loanissuance;
 
 import java.util.List;
 
+import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
+import io.micrometer.observation.annotation.Observed;
 import io.micrometer.tracing.BaggageInScope;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
@@ -15,6 +17,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -44,17 +47,52 @@ class LoanIssuanceController {
 
 	private static final Logger log = LoggerFactory.getLogger(LoanIssuanceController.class);
 
-	private final RestTemplate restTemplate;
+	private final RestTemplateClient restTemplateClient;
 
-	LoanIssuanceController(@LoadBalanced RestTemplate restTemplate) {
-		this.restTemplate = restTemplate;
+	LoanIssuanceController(RestTemplateClient restTemplateClient) {
+		this.restTemplateClient = restTemplateClient;
 	}
 
 	@GetMapping("/resttemplate")
 	@SuppressWarnings("unchecked")
 	List<String> restTemplateFrauds() {
 		log.info("\n\nGot rest template request\n\n");
-		return this.restTemplate.getForObject("http://frauddetection/frauds", List.class);
+		return this.restTemplateClient.restTemplateFrauds();
+	}
+}
+
+@Service
+class RestTemplateClient {
+	private static final Logger log = LoggerFactory.getLogger(RestTemplateClient.class);
+
+	private final RestTemplate restTemplate;
+
+	private final ObservationRegistry observationRegistry;
+
+	RestTemplateClient(@LoadBalanced RestTemplate restTemplate,
+			ObservationRegistry observationRegistry) {
+		this.restTemplate = restTemplate;
+		this.observationRegistry = observationRegistry;
+	}
+
+	// Wrap this method in an observation
+	@Observed
+	List<String> restTemplateFrauds() {
+		// If tracing on classpath will already have a new span
+		log.info("\n\nGot rest template request\n\n");
+		observationRegistry.getCurrentObservation()
+				.lowCardinalityKeyValue("tag.existing.observation", "with value");
+		// Manually create and  start a new observation
+		return Observation.createNotStarted("my.observation", observationRegistry)
+				// This will rename a span
+				.contextualName("my super observation")
+				// This will create a tag for timer and span
+				.lowCardinalityKeyValue("not.so.varying.value", "big fraud")
+				// This will create a tag only for span
+				.highCardinalityKeyValue("can.vary.a.lot", String.valueOf(System.currentTimeMillis()))
+				// shortcut to start, put in scope, capture errors and stop observation
+				.observe(() ->
+						this.restTemplate.getForObject("http://frauddetection/frauds", List.class));
 	}
 }
 

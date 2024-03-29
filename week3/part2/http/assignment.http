@@ -3,6 +3,16 @@ GET localhost:9081/resttemplate
 
 ###
 
+# curl localhost:9081/actuator/metrics/my.observation
+GET localhost:9081/actuator/metrics/my.observation
+
+###
+
+# curl localhost:9081/actuator/metrics/method.observed
+GET localhost:9081/actuator/metrics/method.observed
+
+###
+
 # curl localhost:9081/baggage
 GET localhost:9081/baggage
 
