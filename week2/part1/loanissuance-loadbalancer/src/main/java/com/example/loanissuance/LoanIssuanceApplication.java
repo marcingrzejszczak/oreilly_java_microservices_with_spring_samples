@@ -46,7 +46,7 @@ class Config {
 	@Bean
 	HttpServiceProxyFactory proxyFactory(WebClient.Builder webClientBuilder) {
 		return HttpServiceProxyFactory.builder()
-				.clientAdapter(WebClientAdapter.forClient(webClientBuilder
+				.exchangeAdapter(WebClientAdapter.create(webClientBuilder
 								.baseUrl("http://frauddetection")
 						.build()))
 				.build();
