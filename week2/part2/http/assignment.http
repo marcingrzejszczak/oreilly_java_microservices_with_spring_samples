@@ -11,3 +11,18 @@ GET localhost:9081/resttemplatewithwrongurl
 # curl localhost:9081/resttemplatewithfallback
 GET localhost:9081/resttemplatewithfallback
 
+### WEBCLIENT
+
+# curl localhost:9081/webclient
+GET localhost:9081/webclient
+
+###
+
+# curl localhost:9081/webclientwithwrongurl
+GET localhost:9081/webclientwithwrongurl
+
+###
+
+# curl localhost:9081/webclientwithfallback
+GET localhost:9081/webclientwithfallback
+

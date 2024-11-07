@@ -129,7 +129,7 @@ class MyConfigProp {
 }
 
 @Service
-//@RefreshScope
+@RefreshScope
 class MyEncryptedPropService {
 	private static final Logger log = LoggerFactory.getLogger(MyEncryptedPropService.class);
 
